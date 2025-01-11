@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import avatar from "@/assets/images/avatar.png";
+import {Stack} from "expo-router";
 
 const HomeScreen = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -16,7 +17,7 @@ const HomeScreen = () => {
   };
 
   return (
-    <View className="flex-1 bg-[#F2F1FE]">
+    <View className="flex-1 bg-gray-100">
       <ScrollView
         contentContainerStyle={{
           paddingHorizontal: 24,

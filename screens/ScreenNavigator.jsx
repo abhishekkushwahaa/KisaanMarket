@@ -44,7 +44,9 @@ const ScreenNavigator = () => {
       <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
-        options={{ title: 'Back' }}
+        options={{
+            title: 'Back',
+      }}
       />
     </Stack.Navigator>
   );

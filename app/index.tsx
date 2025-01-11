@@ -1,16 +1,16 @@
-import React from 'react';
-import ScreenNavigator from '@/screens/ScreenNavigator';
-import { SafeAreaView, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import {Redirect, Stack} from 'expo-router';
 
 export default function App() {
+  const [loggedInUser] = useState(true);
+  const [loading] = useState(false);
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        className="flex-1"
-      >
-        <ScreenNavigator />
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      {loading ? (
+        <></>
+      ) : (
+          <Redirect href={!loggedInUser ? ("/(routes)/onboarding" as any) : "/(tabs)"} />
+      )}
+    </>
   );
 }
