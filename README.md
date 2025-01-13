@@ -8,5 +8,3 @@ KisaanMarket is a platform that connects farmers and consumers directly. It is a
 - Backend: Node.js, Express.js
 - Database: MongoDB or PostgreSQL
 - Authentication: Clerk
-
-##

@@ -1,11 +1,9 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import ProfileScreen from "@/screens/profile/ProfileScreen";
 
 const Profile = () => {
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <ProfileScreen/>
   );
 };
 

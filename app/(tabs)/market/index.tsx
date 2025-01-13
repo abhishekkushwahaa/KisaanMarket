@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import MarketScreen from "@/screens/market/MarketScreen";
 
 const Market = () => {
   return (
-    <View>
-      <Text>Market</Text>
-    </View>
+    <MarketScreen/>
   );
 };
 
