@@ -7,12 +7,12 @@ import {
   Animated,
   Alert,
 } from 'react-native';
+import axios from 'axios';
 import logo from '@/assets/images/icon.png';
 import { useNavigation } from '@react-navigation/native';
-
-const LoginScreen = () => {
+const Login = () => {
   const [logoAnimation, setLogoAnimation] = useState(new Animated.Value(1));
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -43,22 +43,48 @@ const LoginScreen = () => {
     });
   };
 
+  const isEmail = (input) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+  const isPhoneNumber = (input) => /^\d{10}$/.test(input);
+
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password.');
+    if (!identifier || !password) {
+      Alert.alert('Error', 'Please enter both email/phone and password.');
+      return;
+    }
+
+    if (!isEmail(identifier) && !isPhoneNumber(identifier)) {
+      Alert.alert('Error', 'Enter a valid email or 10-digit phone number.');
       return;
     }
 
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/api/auth/login`, {
+        identifier,
+        password,
+      });
       setLoading(false);
 
-      if (email === 'test@example.com' && password === 'password123') {
-        navigation.navigate('HomeScreen');
+      if (response.status === 200) {
+        const { token, user } = response.data;
+        Alert.alert('Success', `Welcome, ${user.name}`);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: '(tabs)', params: { user, token } }],
+        });
       } else {
-        Alert.alert('Login Failed', 'Invalid email or password.');
+        Alert.alert('Login Failed', response.data.error || 'Unknown error occurred.');
       }
-    }, 1000);
+    } catch (error) {
+      setLoading(false);
+      console.error('API Error:', error.response || error.message);
+
+      // Handle different error scenarios
+      const errorMessage =
+        error.response?.data?.error || 'Unable to connect to the server. Please try again.';
+      Alert.alert('Error', errorMessage);
+    }
   };
 
   return (
@@ -72,10 +98,10 @@ const LoginScreen = () => {
       />
       <View className="w-full">
         <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
+          placeholder="Email or Phone Number"
+          keyboardType="default"
+          value={identifier}
+          onChangeText={setIdentifier}
           className="h-12 px-4 rounded-xl mb-4 bg-white shadow-lg"
         />
         <TextInput
@@ -99,7 +125,7 @@ const LoginScreen = () => {
             </Text>
           </TouchableOpacity>
         </Animated.View>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} activeOpacity={0.8}>
+        <TouchableOpacity onPress={() => navigation.navigate('register')} activeOpacity={0.8}>
           <Text className="text-center text-lg text-[#2D2958]">
             Don't have an account?{' '}
             <Text className="text-green-500 font-bold">Register</Text>
@@ -110,4 +136,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default Login;
