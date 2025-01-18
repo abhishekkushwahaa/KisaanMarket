@@ -10,6 +10,8 @@ import {
 import axios from 'axios';
 import logo from '@/assets/images/icon.png';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Login = () => {
   const [logoAnimation, setLogoAnimation] = useState(new Animated.Value(1));
   const [identifier, setIdentifier] = useState('');
@@ -68,6 +70,8 @@ const Login = () => {
 
       if (response.status === 200) {
         const { token, user } = response.data;
+        await AsyncStorage.setItem('userToken', token);
+        await AsyncStorage.setItem('userId', user.id.toString());
         Alert.alert('Success', `Welcome, ${user.name}`);
         navigation.reset({
           index: 0,
@@ -78,7 +82,7 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.error('API Error:', error.response || error.message);
+      // console.error('API Error:', error.response || error.message);
 
       // Handle different error scenarios
       const errorMessage =

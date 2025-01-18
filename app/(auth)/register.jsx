@@ -82,7 +82,7 @@ const Register = () => {
       }
     } catch (error) {
       setLoading(false);
-      console.error('API Error:', error);
+      // console.error('API Error:', error);
       const errorMessage =
         error.response?.data?.error || 'Unable to connect to the server. Please try again.';
       Alert.alert('Error', errorMessage);

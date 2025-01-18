@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import avatar from "@/assets/images/avatar.png";
-import {Stack} from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const HomeScreen = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [userName, setUsername] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleSearchClick = () => {
-    setIsSearchVisible(!isSearchVisible);
+  const fetchUserData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("userToken");
+      if (token) {
+        const userId = await AsyncStorage.getItem("userId");
+        const response = await axios.get(`${process.env.EXPO_PUBLIC_BACKEND_URL}/api/users/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data && response.data.user) {
+          setUsername(response.data.user.name);
+          setIsLoggedIn(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
   };
 
-  const handleSearchChange = (text) => {
-    setSearchQuery(text);
-  };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -25,7 +42,7 @@ const HomeScreen = () => {
           paddingBottom: 20,
         }}
       >
-        <Header onSearchClick={handleSearchClick} />
+        <Header userName={userName} />
         <PriceTrends />
         <TrendCard title="Crop comparison" description="Analyze crop price variations" />
         <TrendCard title="Price update notifications" description="Stay informed, act quickly" />
@@ -36,7 +53,7 @@ const HomeScreen = () => {
   );
 };
 
-const Header = ({ onNotificationClick }) => (
+const Header = ({ userName }) => (
   <View className="flex-row justify-between items-center mb-6">
     <View className="flex-row items-center">
       <Image
@@ -44,10 +61,10 @@ const Header = ({ onNotificationClick }) => (
         className="w-14 h-14 rounded-full mr-3"
       />
       <Text className="text-xl font-extrabold text-gray-800">
-        Welcome, Abhi!
+        Welcome, {userName || "User"}!
       </Text>
     </View>
-    <TouchableOpacity onPress={onNotificationClick}>
+    <TouchableOpacity onPress={() => { }}>
       <Ionicons name="notifications-outline" size={28} color="#2D2958" />
     </TouchableOpacity>
   </View>
