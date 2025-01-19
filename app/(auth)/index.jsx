@@ -5,12 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   Animated,
-  Alert,
 } from 'react-native';
 import axios from 'axios';
 import logo from '@/assets/images/icon.png';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 const Login = () => {
   const [logoAnimation, setLogoAnimation] = useState(new Animated.Value(1));
@@ -50,12 +50,18 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!identifier || !password) {
-      Alert.alert('Error', 'Please enter both email/phone and password.');
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter both email/phone and password.',
+      });
       return;
     }
 
     if (!isEmail(identifier) && !isPhoneNumber(identifier)) {
-      Alert.alert('Error', 'Enter a valid email or 10-digit phone number.');
+      Toast.show({
+        type: 'error',
+        text1: 'Enter a valid email or 10-digit phone number.',
+      });
       return;
     }
 
@@ -72,22 +78,33 @@ const Login = () => {
         const { token, user } = response.data;
         await AsyncStorage.setItem('userToken', token);
         await AsyncStorage.setItem('userId', user.id.toString());
-        Alert.alert('Success', `Welcome, ${user.name}`);
-        navigation.reset({
-          index: 0,
-          routes: [{ name: '(tabs)', params: { user, token } }],
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Login successful!',
         });
+        setTimeout(() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: '(tabs)', params: { showToast: true } }],
+          });
+        }, 500);
+
       } else {
-        Alert.alert('Login Failed', response.data.error || 'Unknown error occurred.');
+        Toast.show({
+          type: 'error',
+          text1: 'Login Failed',
+          text2: response.data.error || 'Unknown error occurred.',
+        });
       }
     } catch (error) {
       setLoading(false);
-      // console.error('API Error:', error.response || error.message);
-
-      // Handle different error scenarios
       const errorMessage =
         error.response?.data?.error || 'Unable to connect to the server. Please try again.';
-      Alert.alert('Error', errorMessage);
+      Toast.show({
+        type: 'error',
+        text1: errorMessage,
+      });
     }
   };
 
@@ -121,7 +138,7 @@ const Login = () => {
             onPressOut={handlePressOut}
             disabled={loading}
             activeOpacity={1}
-            className={`h-12 rounded-xl flex justify-center items-center mb-4 ${loading ? 'bg-gray-400' : 'bg-green-500'
+            className={`h-12 rounded-xl flex justify-center items-center mb-4 ${loading ? 'bg-green-400' : 'bg-green-500'
               }`}
           >
             <Text className="text-white text-lg font-semibold">
@@ -136,6 +153,7 @@ const Login = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Toast />
     </View>
   );
 };

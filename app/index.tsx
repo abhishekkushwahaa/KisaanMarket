@@ -7,16 +7,23 @@ export default function App() {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      setIsLoggedIn(!!token);
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        setIsLoggedIn(!!token);
+      } catch (error) {
+        console.error("Error checking login status:", error);
+        setIsLoggedIn(false);
+      }
     };
 
     checkLoginStatus();
-  }, []);
+  }, [isLoggedIn]);
 
   if (isLoggedIn === null) {
     return null;
   }
 
-  return <Redirect href={isLoggedIn ? "/(tabs)" : "/(auth)"} />;
+  return (
+    <Redirect href={isLoggedIn ? "/(tabs)" : "/(auth)"} />
+  );
 }

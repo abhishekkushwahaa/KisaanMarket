@@ -15,19 +15,16 @@ exports.registerUser = async (req, res) => {
   }
 
   try {
-    // Check if the user already exists
     const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
       return res.status(400).json({ error: 'Email or phone already in use' });
     }
 
-    // Create new user
-    const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
       name,
       email,
       phone,
-      password: hashedPassword,
+      password,
     });
 
     await user.save();
@@ -38,25 +35,42 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-
 exports.loginUser = async (req, res) => {
   const { identifier, password } = req.body;
+
   try {
-    // Check if identifier is email or phone number
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
     const query = isEmail ? { email: identifier } : { phone: identifier };
 
     const user = await User.findOne(query);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found!' });
+    }
 
-    const isMatch = await bcrypt.hash(password, user.password);
-    // console.log({ password, hashedPassword: user.password, isMatch });
-    if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
+    // console.log("Plain Password (from request):", password);
+    // console.log("Stored Hashed Password (from database):", user.password);
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email, phone: user.phone } });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: 'Wrong password!' });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.status(200).json({
+      message: 'Connected!',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 

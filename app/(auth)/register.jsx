@@ -5,11 +5,11 @@ import {
   TextInput,
   TouchableOpacity,
   Animated,
-  Alert,
 } from 'react-native';
 import axios from 'axios';
 import logo from '@/assets/images/icon.png';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const Register = () => {
   const [logoAnimation, setLogoAnimation] = useState(new Animated.Value(1));
@@ -49,17 +49,29 @@ const Register = () => {
 
   const handleRegister = async () => {
     if (!name || !email || !phone || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields.');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Please fill in all fields.',
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match.');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Passwords do not match.',
+      });
       return;
     }
 
     if (!/^\d{10}$/.test(phone)) {
-      Alert.alert('Error', 'Enter a valid 10-digit phone number.');
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: 'Enter a valid 10-digit phone number.',
+      });
       return;
     }
 
@@ -75,17 +87,30 @@ const Register = () => {
       setLoading(false);
 
       if (response.status === 201) {
-        Alert.alert('Success', 'Registration successful!');
-        navigation.navigate('index');
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: 'Registration successful!',
+        });
+        setTimeout(() => {
+          navigation.navigate('index');
+        }, 500);
       } else {
-        Alert.alert('Error', response.data.error || 'Registration failed.');
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: response.data.error || 'Registration failed.',
+        });
       }
     } catch (error) {
       setLoading(false);
-      // console.error('API Error:', error);
       const errorMessage =
         error.response?.data?.error || 'Unable to connect to the server. Please try again.';
-      Alert.alert('Error', errorMessage);
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: errorMessage,
+      });
     }
   };
 
@@ -139,7 +164,7 @@ const Register = () => {
             onPressOut={handlePressOut}
             disabled={loading}
             activeOpacity={1}
-            className={`h-12 ${loading ? 'bg-gray-400' : 'bg-green-500'
+            className={`h-12 ${loading ? 'bg-green-400' : 'bg-green-500'
               } rounded-xl flex justify-center items-center mb-4`}
           >
             <Text className="text-white text-lg font-semibold">
@@ -154,6 +179,7 @@ const Register = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      <Toast />
     </View>
   );
 };

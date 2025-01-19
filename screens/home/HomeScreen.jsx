@@ -4,12 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import avatar from "@/assets/images/avatar.png";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const HomeScreen = () => {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [userName, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const fetchUserData = async () => {
     try {
       const token = await AsyncStorage.getItem("userToken");
@@ -49,6 +48,7 @@ const HomeScreen = () => {
         <Preferences />
         <FooterButton />
       </ScrollView>
+      <Toast />
     </View>
   );
 };
