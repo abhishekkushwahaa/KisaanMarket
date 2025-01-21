@@ -1,7 +1,8 @@
-import { Feather, Fontisto } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { View } from "react-native";
 import { Home, HeartHandshake, UserRoundCog } from 'lucide-react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 interface TabBarIconProps {
   size: number;
@@ -27,8 +28,8 @@ export default function _layout() {
         tabBarIcon: ({ color }: TabBarIconProps) => {
           if (route.name === "index") {
             return <Home color={color} size={24} />;
-          } else if (route.name === "search/index") {
-            return <Feather name="search" color={color} size={24} />;
+          } else if (route.name === "crop/index") {
+            return <FontAwesome name="angellist" size={24} color={color} />
           } else if (route.name === "market/index") {
             return (
               <View
@@ -52,7 +53,7 @@ export default function _layout() {
       })}
     >
       <Tabs.Screen name="index" options={{ tabBarLabel: "Home" }} />
-      <Tabs.Screen name="search/index" options={{ tabBarLabel: "Search" }} />
+      <Tabs.Screen name="crop/index" options={{ tabBarLabel: "My Crops" }} />
       <Tabs.Screen name="market/index" options={{ tabBarLabel: "Market" }} />
       <Tabs.Screen name="chat/index" options={{ tabBarLabel: "Chat" }} />
       <Tabs.Screen name="profile/index" options={{ tabBarLabel: "Profile" }} />

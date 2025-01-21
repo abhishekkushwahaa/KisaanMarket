@@ -1,6 +1,6 @@
 # Variables
 Frontend=.
-Backend=backend
+Backend=backend\users
 Env=.env
 
 .PHONY: install run run-frontend run-backend clean
