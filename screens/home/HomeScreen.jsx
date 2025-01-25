@@ -111,7 +111,7 @@ const PreferenceItem = ({ title }) => (
 );
 
 const FooterButton = () => (
-  <TouchableOpacity className="bg-green-500 p-4 rounded-full shadow-sm items-center justify-center mb-6">
+  <TouchableOpacity activeOpacity={0.8} className="bg-green-500 p-4 rounded-full shadow-sm items-center justify-center mb-6">
     <Ionicons name="add" size={28} color="white" />
   </TouchableOpacity>
 );

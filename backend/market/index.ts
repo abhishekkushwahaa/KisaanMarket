@@ -18,6 +18,6 @@ app.use("/api", cropsRoute);
 app.use(errorHandling);
 
 // Start server for
-app.listen(process.env.PORT || 3005, () => {
-  console.log(`Postgres Server listening on port ${process.env.PORT || 3005}`)
+app.listen(process.env.PORT, () => {
+  console.log(`Postgres Server listening on port ${process.env.PORT}`)
 })
