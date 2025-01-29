@@ -36,7 +36,7 @@ export default function MarketScreen() {
                     component={PublicVendorScreen}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <Ionicons name="globe-outline" size={24} color={color} />
+                            <Ionicons name="storefront-outline" size={24} color={color} />
                         ),
                     }}
                 />
@@ -54,7 +54,7 @@ export default function MarketScreen() {
                     component={PrivateVendorScreen}
                     options={{
                         tabBarIcon: ({ color }) => (
-                            <Ionicons name="person-circle-outline" size={24} color={color} />
+                            <Ionicons name="business-outline" size={24} color={color} />
                         ),
                     }}
                 />

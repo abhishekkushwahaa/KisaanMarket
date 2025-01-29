@@ -192,7 +192,7 @@ const MarketScreen = () => {
                     <TouchableOpacity
                         onPress={handleSaveCrop}
                         activeOpacity={0.8}
-                        className="bg-green-600 p-5 rounded-lg flex items-center shadow-md flex-1 mr-2">
+                        className="bg-green-500 p-5 rounded-lg flex items-center shadow-md flex-1 mr-2">
                         {loading ? (
                             <ActivityIndicator size="small" color="#fff"/>
                         ) : (
