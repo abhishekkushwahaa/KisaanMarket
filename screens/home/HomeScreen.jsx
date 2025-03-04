@@ -8,6 +8,7 @@ import {
     Modal,
     ActivityIndicator,
     TextInput,
+    FlatList
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import avatar from "@/assets/images/avatar.png";
@@ -16,6 +17,112 @@ import axios from "axios";
 import Toast from "react-native-toast-message";
 import { MotiView } from "moti";
 import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
+
+const WeatherCard = () => {
+    const [weather, setWeather] = useState(null);
+    const [forecast, setForecast] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [location, setLocation] = useState(null);
+
+    const API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
+
+    useEffect(() => {
+        const fetchLocationAndWeather = async () => {
+            try {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== "granted") {
+                    setError("Location permission denied");
+                    setLoading(false);
+                    return;
+                }
+
+                let loc = await Location.getCurrentPositionAsync({});
+                setLocation(loc.coords);
+
+                const response = await axios.get(
+                    `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${loc.coords.latitude},${loc.coords.longitude}&days=5&aqi=no&alerts=no`
+                );
+
+                setWeather(response.data);
+                setForecast(response.data.forecast.forecastday.slice(1, 5));
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+                setError("Unable to fetch weather data");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLocationAndWeather();
+    }, []);
+
+    return (
+        <View className="bg-white p-5 rounded-2xl mb-2">
+            {loading ? (
+                <ActivityIndicator size="large" color="#4A90E2" />
+            ) : error ? (
+                <Text className="text-red-600 text-sm">{error}</Text>
+            ) : weather ? (
+                <>
+                    <View className="flex-row items-center mb-4">
+                        <Image
+                            source={{ uri: `https:${weather.current.condition.icon}` }}
+                            style={{ width: 60, height: 60, marginRight: 10 }}
+                        />
+                        <View className="flex-1">
+                            <Text className="text-xl font-bold text-gray-900">
+                                {weather.location.name} |{" "}
+                                {new Date(weather.location.localtime).toLocaleDateString("en-US", {
+                                    weekday: "long",
+                                    day: "numeric",
+                                    month: "short",
+                                })}
+                            </Text>
+                            <Text className="text-2xl font-extrabold text-green-600 mt-1">
+                                {weather.current.temp_c}°C
+                            </Text>
+                            <Text className="text-lg text-gray-700 mt-1">
+                                {weather.current.condition.text} | 🌧{" "}
+                                {weather.forecast.forecastday[0].day.daily_chance_of_rain}%
+                            </Text>
+                        </View>
+                    </View>
+
+                    <Text className="text-lg font-medium text-gray-700 mb-2">Next 4 Days</Text>
+                    <FlatList
+                        data={forecast}
+                        keyExtractor={(item) => item.date}
+                        horizontal
+                        renderItem={({ item }) => (
+                            <View className="bg-green-100 p-3 rounded-lg mx-2 items-center">
+                                <Text className="text-md font-medium text-gray-700">
+                                    {new Date(item.date).toLocaleDateString("en-US", {
+                                        weekday: "short",
+                                        day: "numeric",
+                                        month: "short",
+                                    })}
+                                </Text>
+                                <Image
+                                    source={{ uri: `https:${item.day.condition.icon}` }}
+                                    style={{ width: 40, height: 40 }}
+                                />
+                                <Text className="text-sm font-semibold text-gray-800">
+                                    {item.day.avgtemp_c}°C | 🌧 {item.day.daily_chance_of_rain}%
+                                </Text>
+                            </View>
+                        )}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </>
+            ) : (
+                <Text className="text-gray-600 text-sm">No data available</Text>
+            )}
+        </View>
+    );
+};
+
 
 const HomeScreen = () => {
     const [userName, setUsername] = useState("");
@@ -108,6 +215,7 @@ const HomeScreen = () => {
                         title="Price update notifications"
                         description="Stay informed, act quickly"
                     />
+                    <WeatherCard/>
                     <Preferences preferences={preferences} />
                     <FooterButton onPress={() => setModalVisible(true)} />
                 </ScrollView>

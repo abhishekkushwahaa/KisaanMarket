@@ -55,10 +55,10 @@ const ChatScreen = ({ chat, onBack }) => {
             setIsTyping(true);
 
             try {
-                const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+                const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
                 const result = await model.generateContent(input);
                 const response = await result.response;
-                const text = response.text();
+                const text = response.text().replace(/\*/g, "");
 
                 // Add Gemini response
                 setMessages(prev => [...prev, {
