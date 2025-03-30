@@ -39,35 +39,35 @@ KisaanMarket is a platform that connects farmers and vendors directly. It is a p
 
 ### **Login & Register**
 
-<img src="assets/demo/login.jpg" width="400"> <img src="assets/demo/register.jpg" width="400">
+<img src="assets/demo/login.jpg" width="250"> <img src="assets/demo/register.jpg" width="250">
 
 ### **Home Page**
 
-<img src="assets/demo/home1.jpg" width="400"> <img src="assets/demo/home2.jpg" width="400">
+<img src="assets/demo/home1.jpg" width="250"> <img src="assets/demo/home2.jpg" width="250">
 
 ### **Market Prices**
 
-<img src="assets/demo/market1.jpg" width="300"> <img src="assets/demo/market2.jpg" width="300"> <img src="assets/demo/market3.jpg" width="300">
+<img src="assets/demo/market1.jpg" width="200"> <img src="assets/demo/market2.jpg" width="200"> <img src="assets/demo/market3.jpg" width="200">
 
 ### **AI Chatbot**
 
-<img src="assets/demo/ai.jpg" width="400">
+<img src="assets/demo/ai.jpg" width="250">
 
 ### **Chat**
 
-<img src="assets/demo/chat.jpg" width="400">
+<img src="assets/demo/chat.jpg" width="250">
 
 ### **Crops**
 
-<img src="assets/demo/crop.jpg" width="400">
+<img src="assets/demo/crop.jpg" width="250">
 
 ### **Profile**
 
-<img src="assets/demo/profile.jpg" width="400">
+<img src="assets/demo/profile.jpg" width="250">
 
 ### **Log Out**
 
-<img src="assets/demo/logout.jpg" width="400">
+<img src="assets/demo/logout.jpg" width="250">
 
 <div align="center">
   <img src="assets/images/favicon.png" alt="KisaanMarket" width="50%">
