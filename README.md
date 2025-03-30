@@ -37,33 +37,37 @@ KisaanMarket is a platform that connects farmers and vendors directly. It is a p
 
 ## Screenshots
 
-1. **Login & Register**
-   ![Login](assets/demo/login.jpg)
-   ![Register](assets/demo/register.jpg)
+### **Login & Register**
 
-2. **Home Page**
-   ![Home Page](assets/demo/home1.jpg)
-   ![Home Page](assets/demo/home2.jpg)
+<img src="assets/demo/login.jpg" width="400"> <img src="assets/demo/register.jpg" width="400">
 
-3. **Market Prices**
-   ![Market Prices](assets/demo/market1.jpg)
-   ![Market Prices](assets/demo/market2.jpg)
-   ![Market Prices](assets/demo/market3.jpg)
+### **Home Page**
 
-4. **AI Chatbot**
-   ![AI Chatbot](assets/demo/ai.jpg)
+<img src="assets/demo/home1.jpg" width="400"> <img src="assets/demo/home2.jpg" width="400">
 
-5. **Chat**
-   ![Chat](assets/demo/chat.jpg)
+### **Market Prices**
 
-6. **Crops**
-   ![Crops](assets/demo/crop.jpg)
+<img src="assets/demo/market1.jpg" width="300"> <img src="assets/demo/market2.jpg" width="300"> <img src="assets/demo/market3.jpg" width="300">
 
-7. **Profile**
-   ![Profile](assets/demo/profile.jpg)
+### **AI Chatbot**
 
-8. **Log Out**
-   ![Log Out](assets/demo/logout.jpg)
+<img src="assets/demo/ai.jpg" width="400">
+
+### **Chat**
+
+<img src="assets/demo/chat.jpg" width="400">
+
+### **Crops**
+
+<img src="assets/demo/crop.jpg" width="400">
+
+### **Profile**
+
+<img src="assets/demo/profile.jpg" width="400">
+
+### **Log Out**
+
+<img src="assets/demo/logout.jpg" width="400">
 
 <div align="center">
   <img src="assets/images/favicon.png" alt="KisaanMarket" width="50%">
