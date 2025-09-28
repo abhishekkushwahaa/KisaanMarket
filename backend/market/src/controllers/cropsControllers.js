@@ -1,9 +1,10 @@
 import {
   addCropService,
   deleteByIDCropService,
-  updateByIDCropService,
   getAllCropsService,
   getCropByIDService,
+  updateByIDCropService,
+  updateCropOrder,
 } from "@/models/cropsModel";
 import fs from "fs";
 import path from "path";
@@ -20,6 +21,26 @@ export const getCrops = async (req, res, next) => {
   try {
     const crops = await getAllCropsService();
     handleResponse(res, 200, "Crops retrieved successfully", crops);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const reorderCrops = async (req, res, next) => {
+  try {
+    const { orderedIds } = req.body;
+    const userid = req.user.id;
+
+    if (!Array.isArray(orderedIds)) {
+      return handleResponse(res, 400, "Invalid data format.");
+    }
+
+    const updatePromises = orderedIds.map((cropId, index) => {
+      return updateCropOrder(cropId, index, userid);
+    });
+
+    await Promise.all(updatePromises);
+    handleResponse(res, 200, "Crop order updated successfully");
   } catch (err) {
     next(err);
   }
@@ -92,3 +113,29 @@ export const deleteCropByID = async (req, res, next) => {
     next(err);
   }
 };
+
+// export const getCrops = async (req, res, next) => {
+//   try {
+//     const page = parseInt(req.query.page, 10) || 1;
+//     const limit = parseInt(req.query.limit, 10) || 10;
+//     const offset = (page - 1) * limit;
+
+//     const crops = await getAllCropsService(limit, offset);
+//     const totalCrops = await countAllCropsService();
+//     const totalPages = Math.ceil(totalCrops / limit);
+
+//     // Send back the data along with pagination info
+//     res.status(200).json({
+//       status: 200,
+//       message: "Crops retrieved successfully",
+//       data: crops,
+//       pagination: {
+//         currentPage: page,
+//         totalPages: totalPages,
+//         totalCrops: totalCrops,
+//       },
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

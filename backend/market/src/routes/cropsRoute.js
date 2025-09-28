@@ -1,8 +1,9 @@
 import {
   addCrop,
-  updateCropByID,
   deleteCropByID,
   getCrops,
+  reorderCrops,
+  updateCropByID,
 } from "@/controllers/cropsControllers";
 import authMiddleware from "@/middlewares/authMiddleware";
 import validateCrop from "@/middlewares/inputValidation";
@@ -24,6 +25,7 @@ router.patch(
   authMiddleware,
   updateCropByID
 );
+router.patch("/crop/reorder", authMiddleware, reorderCrops);
 router.delete("/crop/:id", deleteCropByID);
 
 export default router;

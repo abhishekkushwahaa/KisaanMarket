@@ -1,10 +1,24 @@
 import pool from "../config/db.js";
 
+// export const getAllCropsService = async () => {
+//   const result = await pool.query(
+//     "SELECT * FROM crops ORDER BY created_at DESC"
+//   );
+//   return result.rows;
+// };
+
 export const getAllCropsService = async () => {
   const result = await pool.query(
-    "SELECT * FROM crops ORDER BY created_at DESC"
+    "SELECT * FROM crops ORDER BY crop_order ASC, created_at DESC"
   );
   return result.rows;
+};
+
+export const updateCropOrder = async (id, crop_order, userID) => {
+  return pool.query(
+    "UPDATE crops SET crop_order = $1 WHERE id = $2 AND userid = $3",
+    [crop_order, id, userID]
+  );
 };
 
 export const getCropByIDService = async (id) => {
@@ -37,3 +51,16 @@ export const updateByIDCropService = async (
 export const deleteByIDCropService = async (id) => {
   await pool.query("DELETE FROM crops WHERE id = $1", [id]);
 };
+
+// export const getAllCropsService = async (limit, offset) => {
+//   const result = await pool.query(
+//     "SELECT * FROM crops ORDER BY created_at DESC LIMIT $1 OFFSET $2",
+//     [limit, offset]
+//   );
+//   return result.rows;
+// };
+
+// export const countAllCropsService = async () => {
+//   const result = await pool.query("SELECT COUNT(*) FROM crops");
+//   return parseInt(result.rows[0].count, 10);
+// };
