@@ -84,7 +84,12 @@ const WeatherCard = () => {
                                 {weather.current.temp_c}°C
                             </Text>
                             <Text className="text-lg text-gray-700 mt-1">
+<<<<<<< HEAD
                                 {weather.current.condition.text} | 🌧{" "}
+=======
+                                {weather.current.condition.text} |{" "}
+                                <Ionicons name="rainy-outline" size={18} color="#4A90E2" />{" "}
+>>>>>>> project
                                 {weather.forecast.forecastday[0].day.daily_chance_of_rain}%
                             </Text>
                         </View>
@@ -109,7 +114,11 @@ const WeatherCard = () => {
                                     style={{ width: 40, height: 40 }}
                                 />
                                 <Text className="text-sm font-semibold text-gray-800">
+<<<<<<< HEAD
                                     {item.day.avgtemp_c}°C | 🌧 {item.day.daily_chance_of_rain}%
+=======
+                                    {item.day.avgtemp_c}°C | <Ionicons name="rainy-outline" size={14} color="#4A90E2" /> {item.day.daily_chance_of_rain}%
+>>>>>>> project
                                 </Text>
                             </View>
                         )}

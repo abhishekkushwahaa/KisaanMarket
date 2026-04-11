@@ -3,7 +3,8 @@ import Joi from "joi";
 const cropScheme = Joi.object({
   name: Joi.string().min(3).required(),
   price: Joi.string().min(2).required(),
-  userid: Joi.string()
+  userid: Joi.string(),
+  image: Joi.string(),
 });
 
 const validateCrop = (req, res, next) => {

@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Emulator + Expo",
+      "type": "shell",
+      "command": "powershell -NoExit -Command \"Start-Process 'C:\\AndroidSdk\\emulator\\emulator.exe' -ArgumentList '-avd Pixel_9a'; bunx expo start\"",
+      "problemMatcher": [],
+      "presentation": {
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}

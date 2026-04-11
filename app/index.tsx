@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Redirect } from "expo-router";
+import React, { useEffect, useState } from "react";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
@@ -8,7 +8,7 @@ export default function App() {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const token = await AsyncStorage.getItem('userToken');
+        const token = await AsyncStorage.getItem("userToken");
         setIsLoggedIn(!!token);
       } catch (error) {
         console.error("Error checking login status:", error);
@@ -23,7 +23,5 @@ export default function App() {
     return null;
   }
 
-  return (
-    <Redirect href={isLoggedIn ? "/(tabs)" : "/(auth)"} />
-  );
+  return <Redirect href={isLoggedIn ? "/(tabs)" : "/(auth)"} />;
 }

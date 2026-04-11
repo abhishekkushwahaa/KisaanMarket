@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-require('dotenv').config()
+require("dotenv").config();
 
 const pool = new Pool({
   user: process.env.PG_USERNAME,
@@ -12,7 +12,8 @@ const pool = new Pool({
   },
 });
 
-pool.connect()
+pool
+  .connect()
   .then(() => console.log("Connected to PostgreSQL"))
   .catch((err) => console.error("Connection error:", err));
 

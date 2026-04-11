@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Linking } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { MotiView, AnimatePresence } from "moti";
 import { useNavigation } from "@react-navigation/native";
+import { AnimatePresence, MotiView } from "moti";
+import React, { useEffect, useState } from "react";
+import { Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 const mockVendors = [
     {
@@ -95,14 +95,20 @@ const PrivateVendorScreen = () => {
                                     className="bg-gray-50 p-4 rounded-2xl mt-2 shadow-sm"
                                 >
                                     {/* Address */}
-                                    <Text className="text-gray-700 font-medium">
-                                        📍 Address: {vendor.address}
-                                    </Text>
+                                    <View className="flex-row items-center">
+                                        <Ionicons name="location-outline" size={18} color="#2D2958" />
+                                        <Text className="text-gray-700 font-medium ml-1">
+                                            Address: {vendor.address}
+                                        </Text>
+                                    </View>
 
                                     {/* Phone Number */}
-                                    <Text className="text-gray-800 font-semibold mt-2 mb-2">
-                                        📞 Contact: {vendor.phone}
-                                    </Text>
+                                    <View className="flex-row items-center mt-2 mb-2">
+                                        <Ionicons name="call-outline" size={18} color="#2D2958" />
+                                        <Text className="text-gray-800 font-semibold ml-1">
+                                            Contact: {vendor.phone}
+                                        </Text>
+                                    </View>
                                     {vendor.buyingCrops.map((crop, idx) => (
                                         <View key={idx} className="flex-row justify-between mb-1">
                                             <Text className="text-gray-600">{crop.name}</Text>
