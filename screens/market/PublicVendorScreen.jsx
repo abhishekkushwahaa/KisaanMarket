@@ -83,9 +83,12 @@ const PublicVendorScreen = () => {
                                     transition={{ type: "timing", duration: 300 }}
                                     className="bg-gray-50 p-4 rounded-2xl mt-2 shadow-sm"
                                 >
-                                    <Text className="text-gray-700 font-medium mb-2">
-                                        📍 Address: {vendor.address}
-                                    </Text>
+                                    <View className="flex-row items-center mb-2">
+                                        <Ionicons name="location-outline" size={18} color="#2D2958" />
+                                        <Text className="text-gray-700 font-medium ml-1">
+                                            Address: {vendor.address}
+                                        </Text>
+                                    </View>
                                     {vendor.buyingCrops.map((crop, idx) => (
                                         <View key={idx} className="flex-row justify-between mb-1">
                                             <Text className="text-gray-600">{crop.name}</Text>

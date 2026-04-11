@@ -154,12 +154,18 @@ const ServicesScreen = () => {
                                                         style={{ backgroundColor: "#E8F5E9" }}
                                                         className="p-2 rounded-2xl mt-2 shadow-sm"
                                                     >
-                                                        <Text className="text-gray-700 font-medium mb-2">
-                                                            📍 Address: {provider.address}
-                                                        </Text>
-                                                        <Text className="text-gray-700 font-medium">
-                                                            📞 Contact: {provider.phone}
-                                                        </Text>
+                                                        <View className="flex-row items-center mb-2">
+                                                            <Ionicons name="location-outline" size={18} color="#2D2958" />
+                                                            <Text className="text-gray-700 font-medium ml-1">
+                                                                Address: {provider.address}
+                                                            </Text>
+                                                        </View>
+                                                        <View className="flex-row items-center">
+                                                            <Ionicons name="call-outline" size={18} color="#2D2958" />
+                                                            <Text className="text-gray-700 font-medium ml-1">
+                                                                Contact: {provider.phone}
+                                                            </Text>
+                                                        </View>
 
                                                         <View className="flex-row justify-between mt-2">
                                                             <TouchableOpacity
